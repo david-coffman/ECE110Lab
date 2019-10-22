@@ -37,12 +37,12 @@ void loop() {
   else if (QTIvalues[0] and QTIvalues[1] and QTIvalues[2]) {
     left.detach();
     right.detach();
-    delay(1000);
+    delay(500);
     left.attach(11);
     right.attach(12);
     while (QTIvalues[0] and QTIvalues[1] and QTIvalues[2]) {
       left.write(100);
-      right.write(85);
+      right.write(80);
       checkSensors();
     }
   }
@@ -52,13 +52,6 @@ void loop() {
   }
 }
 
-/* 
- * INPUT:  Reads the QTIvalues from the QTI sensors stored in the array QTIpins[]
- * OUTPUT: A 0 or 1 in array QTIvalues[] depending on if the sensor reads a dark or light objects
- * In order to calibrate what is dark and what is light, use the threshold variable above
- * 
- * From: https://github.com/erisawesome/QTI-Sensor-Demo/blob/master/QTI-Sensor-Demo.ino
- */
 void checkSensors() {
   for(int i = 0; i < sizeof(QTIpins)/2; i++) { 
     long duration = 0;                      //

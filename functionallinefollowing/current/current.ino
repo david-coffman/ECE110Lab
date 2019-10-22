@@ -41,11 +41,9 @@ void loop() {
     delay(500);
     left.attach(11);
     right.attach(12);
-    while (QTIvalues[0] and QTIvalues[1] and QTIvalues[2]) {
-      left.write(100);
-      right.write(80);
-      checkSensors();
-    }
+    left.write(100);
+    right.write(85);
+    delay(200);
   }
   else {
     left.write(100);
