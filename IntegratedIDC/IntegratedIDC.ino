@@ -12,38 +12,51 @@ int QTIdurations[3];
 int QTIvalues[3];
 
 int threshold = 100;
+// Tracks the number of hashes encountered so far.
 int encountered = 0;
 int bottleLocation = -1;
 
 IRTherm therm;
+// Threshold temperature for "cold" -- probably need to update before IDC.
 float thresholdTemperature = 66.0;
 
 void setup() {
-  Serial.begin(9600);
+  // Configure everything.
   configureSensing();
   configureCommunication();
   setUpQTI();
 }
 
 void loop() {
+  // Stop after all 5 hash marks encountered.
   while(encountered < 5) {
+    // Find the next hash mark.
     lineFollow();
+    // Record that a hash mark has been found.
     encountered++;
+    // Check object temperature.
     if(getTemperature() < thresholdTemperature){
+      // Light the LED.
       digitalWrite(2,HIGH);
+      // Record bottle location.
       bottleLocation = encountered;
+      // Update the LCD if object found.
       updateLCD();
+      // Send location of bottle.
       sendCharacter((char) (48+encountered));
     }
+    // Turn all LEDs (onboard and breadboard) off.
     resetLED();
   }
 }
 
+// Uses the integrated temperature sensor to determine bottle temp.
 float getTemperature() {
   therm.read();
   return therm.object();
 }
 
+// Configures the temp sensor.
 void configureSensing() {
   Serial3.begin(9600);
   therm.begin();
@@ -52,6 +65,7 @@ void configureSensing() {
   digitalWrite(2,LOW);
 }
 
+// Update the LCD after each temp measurement.
 void updateLCD() {
   String topLine = (bottleLocation > 0) ? "COLD @ " + String(bottleLocation) : "NOT FOUND";
   Serial3.write(12);
@@ -59,6 +73,7 @@ void updateLCD() {
   Serial3.println(topLine);
 }
 
+// Send a character with the Xbee.
 void sendCharacter(char c) {
   char outgoing = c;
     Serial2.write(outgoing);
@@ -66,36 +81,40 @@ void sendCharacter(char c) {
     delay(500);
 }
 
+// Check for characters received on Xbee.
 char receiveCharacter() {
   if(Serial2.available()){
     char incoming = Serial2.read();
+    // This will need to change depending on team comm protocol.
     if(incoming == '5'){
       digitalWrite(46, LOW);
       return incoming;
     }
   }
+  // Return 0 if nothing to be received.
   return '0';
 }
 
+// Turns off onboard and breadboard LEDs.
 void resetLED(){
   digitalWrite(2, LOW); 
   digitalWrite(45, HIGH);
   digitalWrite(46, HIGH);
 }
 
+// Configures LED and Xbee. 
 void configureCommunication(){
   pinMode(45, OUTPUT);
   pinMode(46, OUTPUT);
   pinMode(5, OUTPUT);
   Serial2.begin(9600);
-  Serial.begin(9600);
+  Serial3.begin(9600);
 }
 
+// Configures servos.
 void setUpQTI(){
   left.attach(11);
   right.attach(12);
-  Serial.begin(9600);
-  Serial3.begin(9600);
 }
   
 // Method for checking QTI sensors.
@@ -117,6 +136,7 @@ void checkSensors() {
   }
 }    
 
+// Finds the next hash.
 void lineFollow(){
   left.attach(11);
   right.attach(12);
@@ -154,4 +174,3 @@ void lineFollow(){
 
 
   
-
