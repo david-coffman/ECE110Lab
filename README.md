@@ -1,2 +1,2 @@
 # ECE110Lab
-Code for ECE110 lab work.
+Code for ECE110 lab work. <b> The team code is in the IntegratedIDC folder.
