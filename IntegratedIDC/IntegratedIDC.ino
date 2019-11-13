@@ -171,6 +171,3 @@ void lineFollow(){
     } 
   }
 }
-
-
-  
