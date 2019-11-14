@@ -43,7 +43,7 @@ void loop() {
       // Update the LCD if object found.
       updateLCD();
       // Send location of bottle.
-      sendCharacter((char) (48+encountered));
+      sendCharacter((char) ('e'+encountered));
     }
     // Turn all LEDs (onboard and breadboard) off.
     resetLED();
