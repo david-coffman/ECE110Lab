@@ -8,14 +8,16 @@
  * This code is for team communication. Make sure to read the comments :) 
  */
 
-// DINO variables.
+// ALL BOT variables.
 int teamResults[4];
 int minIndex = -1; 
+// End ALL BOT variables.
+
+// DINO variables.
 int dinoResult;
 // End DINO variables.
 
 // NON-DINO variables.
-char minTeam;
 char finalRoutine;
 // End NON-DINO variables.
 
@@ -30,33 +32,35 @@ void loop() {
   /*
    * Only put this on DINO. Put it AFTER your sensing/line following code.
    */
+   // Set dinoResult to your group's result.
   while(!receiveCharacter()){}
-  char outgoing = compute();
-  for(int i = 0; i < 20; i++) {
+  char outgoing = dinoCompute();
+  for(int i = 0; i < 10; i++) {
     sendCharacter(outgoing);
-    sendCharacter((char) (minIndex + 48))
   }
   // End of dino-only code.
 
   /*
-  * Only put this on NON-DINO. Put it AFTER your sensing/line following code.
+  * Only put this on NON-DINO. Put it AFTER your sensing/line following AND character sending code.
   * 
   * After this section of the code runs, your bot will (a) know which final routine, 
   * which will be stored in the char finalRoutine variable, and (b) have displayed 
   * the bot # of the team with the minimum score.
   */
   while(!receiveFinalRoutine()) {}
+  compute();
   Serial3.write(12);
   Serial3.write(13);
-  Serial3.write("Lowest bot: "+String(minTeam));
+  Serial3.write("Lowest bot: " + (char) minIndex);
   // End of non-dino code.  
 }
 
-boolean receiveFinalRoutine {
+// Needed for NON-DINO bots.
+boolean receiveFinalRoutine() {
   if(Serial2.available()) {
     char incoming = Serial2.read();
-    if(incoming >= '1' && incoming <= '4') {
-      minTeam = incoming;
+    if(incoming >= 'X' && incoming <= 'Z') {
+      finalRoutine = incoming;
       return true;
     }
     return false;
@@ -114,8 +118,8 @@ boolean receiveCharacter() {
   }
 }
 
-// compute() needed only for DINO.
-char compute() {
+// dinoCompute() needed only for DINO.
+char dinoCompute() {
   for(int i = 0; i < 4; i++) {
     if(teamResults[i] < teamResults[minIndex]) {
       minIndex = i;
@@ -132,3 +136,11 @@ char compute() {
   }
 }
 
+// compute() needed only for NON-DINO.
+void compute() {
+  for(int i = 0; i < 4; i++) {
+    if(teamResults[i] < teamResults[minIndex]) {
+      minIndex = i;
+    }
+  }
+}
