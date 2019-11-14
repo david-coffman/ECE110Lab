@@ -10,7 +10,7 @@
 
 // ALL BOT variables.
 int teamResults[4];
-int minIndex = -1; 
+int minIndex = 0; 
 // End ALL BOT variables.
 
 // DINO variables.
