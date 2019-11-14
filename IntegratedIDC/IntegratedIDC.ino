@@ -47,6 +47,14 @@ void loop() {
     }
     // Turn all LEDs (onboard and breadboard) off.
     resetLED();
+    if(encountered == 5) {
+      while(!receiveCharacter()) {}
+      compute();
+      Serial3.write(12);
+      Serial3.write(13);
+      Serial3.write("Lowest bot: " + (char) minIndex);
+      while(!receiveFinalRoutine()) {}
+    }
   }
 }
 
@@ -169,5 +177,58 @@ void lineFollow(){
       left.write(100);
       right.write(85);
     } 
+  }
+}
+
+// Needed for NON-DINO bots.
+boolean receiveFinalRoutine() {
+  if(Serial2.available()) {
+    char incoming = Serial2.read();
+    if(incoming >= 'X' && incoming <= 'Z') {
+      finalRoutine = incoming;
+      return true;
+    }
+    return false;
+  }
+}
+
+// receiveCharacter needed only for ALL BOTS.
+boolean receiveCharacter() {
+  // Team 1: a-e
+  // Team 2: f-j
+  // Team 3: k-o
+  // Team 4: p-t
+  // Team 5: not needed since team 5 computes.
+    
+  if(Serial2.available()){
+    char incoming = Serial2.read();
+
+    if(incoming >= 'a' && incoming <= 'e') {
+      teamResults[0] = incoming-96;
+    }
+    if(incoming >= 'f' && incoming <='j') {
+      teamResults[1] = incoming-101;
+    }
+    if(incoming >= 'k' && incoming <='o') {
+      teamResults[2] = incoming-106;
+    }
+    if(incoming >= 'p' && incoming <='t') {
+      teamResults[3] = incoming-111;
+    }
+    for(int i = 0; i < 4; i++) {
+      // If some data not yet received, return false.
+      if(teamResults[i] == 0) {return false;}
+    }
+    // If we have all data, return true;
+    return true;
+  }
+}
+
+// compute() needed only for NON-DINO.
+void compute() {
+  for(int i = 0; i < 4; i++) {
+    if(teamResults[i] < teamResults[minIndex]) {
+      minIndex = i;
+    }
   }
 }

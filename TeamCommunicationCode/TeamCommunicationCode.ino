@@ -47,11 +47,12 @@ void loop() {
   * which will be stored in the char finalRoutine variable, and (b) have displayed 
   * the bot # of the team with the minimum score.
   */
-  while(!receiveFinalRoutine()) {}
+  while(!receiveCharacter()) {}
   compute();
   Serial3.write(12);
   Serial3.write(13);
   Serial3.write("Lowest bot: " + (char) minIndex);
+  while(!receiveFinalRoutine()) {}
   // End of non-dino code.  
 }
 
@@ -86,7 +87,7 @@ void sendCharacter(char c) {
   delay(50);
 }
 
-// receiveCharacter needed only for DINO.
+// receiveCharacter needed only for ALL BOTS.
 boolean receiveCharacter() {
   // Team 1: a-e
   // Team 2: f-j
