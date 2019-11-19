@@ -44,23 +44,28 @@ void loop() {
     encountered++;
     // Check object temperature.
     if(getTemperature() < thresholdTemperature){
-      // Light the LED.
-      digitalWrite(2,HIGH);
       // Record bottle location.
       bottleLocation = encountered;
       // Update the LCD if object found.
       updateLCD();
       // Send location of bottle.
       sendCharacter((char) ('e'+encountered));
+      teamResults[1] = encountered;
     }
     // Turn all LEDs (onboard and breadboard) off.
     resetLED();
     if(encountered == 5) {
+      Serial3.write(12);
+      Serial3.write(13);
+      Serial3.write("Waiting...");
       while(!receiveCharacter()) {}
       compute();
       Serial3.write(12);
       Serial3.write(13);
-      Serial3.write("Lowest bot: " + (char) minIndex);
+      if(minIndex == 0) {Serial3.write("1 is lowest.");}
+      if(minIndex == 1) {Serial3.write("2 is lowest.");}
+      if(minIndex == 2) {Serial3.write("3 is lowest.");}
+      if(minIndex == 3) {Serial3.write("4 is lowest.");}
       while(!receiveFinalRoutine()) {}
     }
   }
@@ -92,23 +97,8 @@ void updateLCD() {
 // Send a character with the Xbee.
 void sendCharacter(char c) {
   char outgoing = c;
-    Serial2.write(outgoing);
-    digitalWrite(45, LOW);
-    delay(500);
-}
-
-// Check for characters received on Xbee.
-char receiveCharacter() {
-  if(Serial2.available()){
-    char incoming = Serial2.read();
-    // This will need to change depending on team comm protocol.
-    if(incoming == '5'){
-      digitalWrite(46, LOW);
-      return incoming;
-    }
-  }
-  // Return 0 if nothing to be received.
-  return '0';
+  Serial2.write(outgoing);
+  digitalWrite(45, LOW);
 }
 
 // Turns off onboard and breadboard LEDs.
