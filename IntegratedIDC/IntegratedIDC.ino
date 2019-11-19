@@ -57,7 +57,7 @@ void loop() {
     if(encountered == 5) {
       Serial3.write(12);
       Serial3.write(13);
-      sendCharacter((char) ('e'+bottleLocation));
+      if(bottleLocation > -1) sendCharacter((char) ('e'+bottleLocation));
       Serial3.write("Waiting...");
       while(!receiveCharacter()) {}
       compute();
