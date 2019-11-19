@@ -67,6 +67,12 @@ void loop() {
       if(minIndex == 2) {Serial3.write("3 is lowest.");}
       if(minIndex == 3) {Serial3.write("4 is lowest.");}
       while(!receiveFinalRoutine()) {}
+      Serial3.write(12);
+      Serial3.write(13);
+      //digitalWrite(46, LOW);
+      if(finalRoutine == 'x') {Serial3.write("FRX");}
+      if(finalRoutine == 'y') {Serial3.write("FRY");}
+      if(finalRoutine == 'z') {Serial3.write("FRZ");}
     }
   }
 }
@@ -182,12 +188,13 @@ void lineFollow(){
 boolean receiveFinalRoutine() {
   if(Serial2.available()) {
     char incoming = Serial2.read();
-    if(incoming >= 'X' && incoming <= 'Z') {
+    if(incoming >= 'x' && incoming <= 'z') {
       finalRoutine = incoming;
       return true;
     }
     return false;
   }
+  return false;
 }
 
 // receiveCharacter needed only for ALL BOTS.
@@ -220,6 +227,7 @@ boolean receiveCharacter() {
     // If we have all data, return true;
     return true;
   }
+  return false;
 }
 
 // compute() needed only for NON-DINO.
