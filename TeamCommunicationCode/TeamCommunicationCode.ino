@@ -67,6 +67,7 @@ boolean receiveFinalRoutine() {
     }
     return false;
   }
+  return false;
 }
 
 // Configure communication however you want.
@@ -118,6 +119,7 @@ boolean receiveCharacter() {
     // If we have all data, return true;
     return true;
   }
+  return false;
 }
 
 // dinoCompute() needed only for DINO.
