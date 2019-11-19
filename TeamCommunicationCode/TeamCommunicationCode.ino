@@ -49,9 +49,10 @@ void loop() {
   */
   while(!receiveCharacter()) {}
   compute();
-  Serial3.write(12);
-  Serial3.write(13);
-  Serial3.write("Lowest bot: " + (char) minIndex);
+  if(minIndex == 0) {Serial3.write("1 is lowest.");}
+  if(minIndex == 1) {Serial3.write("2 is lowest.");}
+  if(minIndex == 2) {Serial3.write("3 is lowest.");}
+  if(minIndex == 3) {Serial3.write("4 is lowest.");}
   while(!receiveFinalRoutine()) {}
   // End of non-dino code.  
 }
