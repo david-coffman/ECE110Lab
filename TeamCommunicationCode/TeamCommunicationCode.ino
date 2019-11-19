@@ -87,7 +87,7 @@ void sendCharacter(char c) {
   delay(50);
 }
 
-// receiveCharacter needed only for ALL BOTS.
+// receiveCharacter needed for ALL BOTS.
 boolean receiveCharacter() {
   // Team 1: a-e
   // Team 2: f-j

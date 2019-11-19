@@ -12,13 +12,21 @@ int QTIdurations[3];
 int QTIvalues[3];
 
 int threshold = 100;
+
 // Tracks the number of hashes encountered so far.
 int encountered = 0;
+
 int bottleLocation = -1;
 
 IRTherm therm;
+
 // Threshold temperature for "cold" -- probably need to update before IDC.
 float thresholdTemperature = 66.0;
+
+// ALL BOT and NON-DINO variables.
+int teamResults[4];
+int minIndex = 0; 
+char finalRoutine;
 
 void setup() {
   // Configure everything.
