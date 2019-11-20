@@ -188,6 +188,7 @@ void lineFollow(){
 // Needed for NON-DINO bots.
 boolean receiveFinalRoutine() {
   if(bottleLocation > -1) sendCharacter((char) ('e'+bottleLocation));
+  delay(50);
   if(Serial2.available()) {
     char incoming = Serial2.read();
     if(incoming >= 'x' && incoming <= 'z') {
@@ -208,6 +209,7 @@ boolean receiveCharacter() {
   // Team 5: not needed since team 5 computes.
 
   if(bottleLocation > -1) sendCharacter((char) ('e'+bottleLocation));
+  delay(50);
 
   if(Serial2.available()){
     char incoming = Serial2.read();
