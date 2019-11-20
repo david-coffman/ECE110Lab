@@ -27,6 +27,8 @@ float thresholdTemperature = 66.0;
 int teamResults[4];
 int minIndex = 0; 
 char finalRoutine;
+long startTime = millis();
+
 
 void setup() {
   // Configure everything.
@@ -187,8 +189,8 @@ void lineFollow(){
 
 // Needed for NON-DINO bots.
 boolean receiveFinalRoutine() {
-  if(bottleLocation > -1) sendCharacter((char) ('e'+bottleLocation));
-  delay(50);
+//  if(bottleLocation > -1) sendCharacter((char) ('e'+bottleLocation));
+//  delay(50);
   if(Serial2.available()) {
     char incoming = Serial2.read();
     if(incoming >= 'x' && incoming <= 'z') {
@@ -208,9 +210,10 @@ boolean receiveCharacter() {
   // Team 4: p-t
   // Team 5: not needed since team 5 computes.
 
-  if(bottleLocation > -1) sendCharacter((char) ('e'+bottleLocation));
-  delay(50);
-
+//  if(bottleLocation > -1) sendCharacter((char) ('e'+bottleLocation));
+  if(millis()-startTime > 60000) return true;
+//  delay(50);
+  
   if(Serial2.available()){
     char incoming = Serial2.read();
 
@@ -239,7 +242,7 @@ boolean receiveCharacter() {
 // compute() needed only for NON-DINO.
 void compute() {
   for(int i = 0; i < 4; i++) {
-    if(teamResults[i] < teamResults[minIndex]) {
+    if(teamResults[i] < teamResults[minIndex] && teamResults[i] != 0) {
       minIndex = i;
     }
   }
