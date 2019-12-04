@@ -493,5 +493,4 @@ void song() {
       delay(pauseBetweenNotes);
 
   }
-  tone(8,0,10000000000000000000000000000000000000000000);
 }
