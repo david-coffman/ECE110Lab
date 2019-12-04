@@ -77,9 +77,9 @@ void loop() {
       while(!receiveFinalRoutine()) {}
       Serial3.write(12);
       Serial3.write(13);
-      if(finalRoutine == 'x') {Serial3.write("ESCAPE;"+bottleLocation+""+(minIndex+1));}
-      if(finalRoutine == 'y') {Serial3.write("DINO5;"+bottleLocation+""+(minIndex+1))}
-      if(finalRoutine == 'z') {Serial3.write("LS;"+bottleLocation+""+(minIndex+1))lightShow();}
+      if(finalRoutine == 'x') {Serial3.write(("ESCAPE;"+String(bottleLocation)+""+String(minIndex+1)).c_str());}
+      if(finalRoutine == 'y') {Serial3.write(("DINO5;"+String(bottleLocation)+""+String(minIndex+1)).c_str());}
+      if(finalRoutine == 'z') {Serial3.write(("LS;"+String(bottleLocation)+""+String(minIndex+1)).c_str()); lightShow();}
     }
   }
 }
