@@ -80,7 +80,7 @@ void loop() {
       Serial3.write(13);
       //digitalWrite(46, LOW);
       if(finalRoutine == 'x') {Serial3.write("ESCAPE.");}
-      if(finalRoutine == 'y') {Serial3.write("FRY");}
+      if(finalRoutine == 'y') {song();}
       if(finalRoutine == 'z') {lightShow();}
     }
   }
