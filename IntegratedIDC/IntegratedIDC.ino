@@ -384,7 +384,7 @@ void configureSong() {
   pinMode(8, OUTPUT);
 }
 
-void loop(){
+void song(){
   beep(note_c, 750);  
   beep(note_c, 250);  
   beep(note_b, 250);  
@@ -425,7 +425,7 @@ void loop(){
 }
  
 void beep(int note, int duration){
-  tone(buzzerPin, note, duration);
-  noTone(buzzerPin);
+  tone(8, note, duration);
+  noTone(8);
   delay(50);
 }
