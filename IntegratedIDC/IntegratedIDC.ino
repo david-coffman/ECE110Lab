@@ -11,6 +11,10 @@ int QTIpins[] = {47, 51, 52}; // left, center, right
 int QTIdurations[3];
 int QTIvalues[3];
 
+int r = 45;
+int b = 44;
+int g = 46;
+
 int threshold = 100;
 
 // Tracks the number of hashes encountered so far.
@@ -35,6 +39,7 @@ void setup() {
   configureSensing();
   configureCommunication();
   setUpQTI();
+  lightSetup();
 }
 
 void loop() {
@@ -73,9 +78,9 @@ void loop() {
       Serial3.write(12);
       Serial3.write(13);
       //digitalWrite(46, LOW);
-      if(finalRoutine == 'x') {Serial3.write("FRX");}
+      if(finalRoutine == 'x') {Serial3.write("ESCAPE.");}
       if(finalRoutine == 'y') {Serial3.write("FRY");}
-      if(finalRoutine == 'z') {Serial3.write("FRZ");}
+      if(finalRoutine == 'z') {lightShow();}
     }
   }
 }
@@ -246,4 +251,118 @@ void compute() {
       minIndex = i;
     }
   }
+}
+
+void lightSetup() {
+  pinMode(r,OUTPUT);
+  pinMode(g,OUTPUT);
+  pinMode(b,OUTPUT);
+}
+
+void bu(int timer){
+  digitalWrite(r,HIGH);
+  digitalWrite(g,HIGH);
+  digitalWrite(b,LOW);
+  delay(2*timer);
+}
+
+void rd(int timer){
+  digitalWrite(r,LOW);
+  digitalWrite(g,HIGH);
+  digitalWrite(b,HIGH);
+  delay(2*timer);
+}
+
+void gn(int timer){
+  digitalWrite(r,HIGH);
+  digitalWrite(g,LOW);
+  digitalWrite(b,HIGH);
+  delay(2*timer);
+}
+
+void wt(int timer){
+  digitalWrite(r,LOW);
+  digitalWrite(g,LOW);
+  digitalWrite(b,LOW);
+  delay(2*timer);
+}
+
+void off(int timer){
+  digitalWrite(r,HIGH);
+  digitalWrite(g,HIGH);
+  digitalWrite(b,HIGH);
+  delay(2*timer);
+}
+
+void actOne(){
+  //about 5 secounds
+  //Only team 1
+  off(1500);
+  //Teams 1,2; 2 wait 1500 before
+  wt(250);
+  off(250);
+  wt(250);
+  off(500);
+  //teams 1,2,3 3 wait 1250 before
+  wt(166);
+  off(166);
+  wt(166);
+  off(166);
+  wt(166);
+  off(500);
+  //teams 1,2,3,4, 4 wait 1330 before
+  wt(125);
+  off(125);
+  wt(125);
+  off(125);
+  wt(125);
+  off(125);
+  wt(125);
+  off(125);
+}
+
+void actTwo(){
+  //about 5.5 secounds
+  bu(1000);
+  rd(500);
+  gn(500);
+  bu(2000);
+  rd(500);
+  gn(500); 
+  bu(500);
+}
+
+void actThree(){
+  //about 7 seconds
+  rd(500);
+  gn(500);
+  rd(500);
+  gn(500);
+  wt(500);
+  bu(500);
+  wt(500);
+  bu(500);
+  rd(250);
+  gn(250);
+  rd(250);
+  gn(250);
+  wt(250);
+  bu(250);
+  wt(250);
+  bu(250);
+  rd(125);
+  gn(125);
+  rd(125);
+  gn(125);
+  wt(125);
+  bu(125);
+  wt(125);
+  bu(125);
+  off(125);
+}
+
+void lightShow() {
+  actOne();
+  actTwo();
+  actThree();
 }
