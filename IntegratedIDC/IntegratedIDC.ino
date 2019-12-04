@@ -426,6 +426,7 @@ void song(){
  
 void beep(int note, int duration){
   tone(8, note, duration);
+  delay(duration);
   noTone(8);
   delay(50);
 }
