@@ -40,7 +40,7 @@ void setup() {
   configureCommunication();
   setUpQTI();
   lightSetup();
-  songSetup();
+  configureSong();
 }
 
 void loop() {
