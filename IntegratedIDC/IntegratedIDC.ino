@@ -78,10 +78,9 @@ void loop() {
       while(!receiveFinalRoutine()) {}
       Serial3.write(12);
       Serial3.write(13);
-      //digitalWrite(46, LOW);
-      if(finalRoutine == 'x') {Serial3.write("ESCAPE.");}
-      if(finalRoutine == 'y') {song();}
-      if(finalRoutine == 'z') {lightShow();}
+      if(finalRoutine == 'x') {Serial3.write("ESCAPE;"+bottleLocation+""+(minIndex+1));}
+      if(finalRoutine == 'y') {Serial3.write("DINO5;"+bottleLocation+""+(minIndex+1))}
+      if(finalRoutine == 'z') {Serial3.write("LS;"+bottleLocation+""+(minIndex+1))lightShow();}
     }
   }
 }
@@ -368,65 +367,4 @@ void lightShow() {
   actOne();
   actTwo();
   actThree();
-}
-
-// FINAL ROUTINE: SONG
-
-const int note_g = 198;
-const int note_b = 245;
-const int note_c = 261;
-const int note_d = 294;
-const int note_e = 329;
-const int note_f = 349;
-const int note_gh = 391;
-
-void configureSong() {
-  pinMode(8, OUTPUT);
-}
-
-void song(){
-  beep(note_c, 750);  
-  beep(note_c, 250);  
-  beep(note_b, 250);  
-  beep(note_c, 1000);
- 
-  beep(note_c, 250);  
-  beep(note_b, 250);  
-  beep(note_c, 500);
-  
-  beep(note_d, 250);
-  beep(note_d, 500);
-  beep(note_f, 250);
-  beep(note_f, 750);
-
-  beep(note_e, 250);
-  beep(note_c, 250); //end of line 1
-  beep(note_d, 500);
-  beep(note_b, 250);
-  beep(note_g, 500);
-  beep(note_e, 250);
-  beep(note_c, 250);
-  beep(note_d, 750);
-
-  beep(note_gh, 250);
-  beep(note_c, 250);
-  beep(note_f, 500);
-  beep(note_e, 250);
-  beep(note_e, 750);
-  
-  beep(note_d, 250);
-  beep(note_d, 750);
-  
-  beep(note_c, 250);
-  beep(note_b, 250); //end of line 2
-  
-  delay(500);
-  delay(1000);
-}
- 
-void beep(int note, int duration){
-  tone(8, note, duration);
-  delay(duration);
-  noTone(8);
-  delay(50);
 }
